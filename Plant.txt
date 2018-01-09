@@ -1,0 +1,9 @@
+http://t-spappdev01:2626/Monroe/_layouts/15/start.aspx#/
+http://t-spappdev01:2626/Silao/_layouts/15/start.aspx#/
+http://t-spappdev01:2626/jack/_layouts/15/start.aspx#/
+http://t-spappdev01:2626/Valpa/_layouts/15/start.aspx#/
+http://t-spappdev01:2626/Somer/_layouts/15/start.aspx#/
+
+https://www.youtube.com/watch?v=bl4NGWneFpQ --- Employees details.
+
+http://sharepointchick.com/archive/2012/07/29/setting-up-your-app-domain-for-sharepoint-2013.aspx -- apps configuar.
