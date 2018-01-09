@@ -1,0 +1,77 @@
+<script id="EasyTabsScript" type="text/javascript">
+
+/* Easy Tabs for Web Part pages - v 2.0
+   Christophe Humbert
+   Christophe@PathToSharePoint.com  */
+
+var TabCookie = "TabCookie" + window.location.pathname;
+
+function GetParentTable(elem)
+{
+while(elem !=null && elem.tagName !="TABLE") elem=elem.parentNode;
+return elem;
+}
+
+function activateTab(selectedtab) {
+if (WPzone.id != "MSOZone") {
+var allTabs = document.getElementById("EasyTabs").getElementsByTagName("SPAN");
+for (i=0;i<allTabs.length;i++) {
+var WPCellID = allTabs[i].id.replace(/tab/,"MSOZoneCell_");
+var TitleID = allTabs[i].id.replace(/tabWebPartWPQ/,"WebPartTitleWPQ");
+if (allTabs[i] == selectedtab) {
+allTabs[i].className = "ms-tabselected";
+document.getElementById(WPCellID).parentNode.style.display = "";
+document.getElementById(TitleID).parentNode.style.display = "none";
+}
+else {
+allTabs[i].className = "ms-tabinactive";
+document.getElementById(WPCellID).parentNode.style.display = "none";
+}
+}
+}
+}
+
+function BuildEasyTabs(){
+
+var TabsTD = document.createElement("TD");
+TabsTD.className = "ms-siteactionsmenu";
+TabsTD.id = "EasyTabs";
+
+var SeparatorTD = document.createElement("TD");
+SeparatorTD.style.height = "5px";
+SeparatorTD.className = "ms-pagetitleareaframe";
+
+var theDIVs = WPzone.getElementsByTagName("DIV");
+for (i=0;i<theDIVs.length;i++) {
+if (theDIVs[i].className.indexOf("ms-PartSpacing")==0) {
+theDIVs[i].style.display="none";
+}
+if ((theDIVs[i].id.indexOf("WebPartWPQ")==0) && (GetParentTable(theDIVs[i]).style.display!="none")) {
+var TitleID = theDIVs[i].id.replace(/WebPartWPQ/,"WebPartTitleWPQ");
+var NewSPAN = document.getElementById(TitleID).getElementsByTagName("SPAN")[0].cloneNode(true);
+
+NewSPAN.className = "ms-tabinactive";
+NewSPAN.style.height = "18px";
+NewSPAN.id = "tab" + theDIVs[i].id ;
+NewSPAN.onclick = function() {SetCookie(TabCookie,this.id,"/");activateTab(this);}
+TabsTD.appendChild(NewSPAN);
+
+}
+}
+
+WPzone.insertRow(0);
+WPzone.rows[0].appendChild(SeparatorTD);
+WPzone.insertRow(0);
+WPzone.rows[0].appendChild(TabsTD);
+
+if (GetCookie(TabCookie)!= null) {var ActiveTab = document.getElementById(GetCookie(TabCookie));}
+else {var ActiveTab = TabsTD.getElementsByTagName("SPAN")[0];}
+
+activateTab(ActiveTab);
+}
+
+var WPzone = GetParentTable(GetParentTable(document.getElementById("EasyTabsScript")).parentNode);
+
+_spBodyOnLoadFunctionNames.push('BuildEasyTabs');
+
+</script>
