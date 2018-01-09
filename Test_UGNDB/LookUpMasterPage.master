@@ -1,0 +1,67 @@
+<%@ Master Language="VB" CodeFile="LookUpMasterPage.master.vb" Inherits="crViewTMMasterPage"
+    EnableTheming="true" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<link rel="stylesheet" href="msvs_template_simple_divs.css" type="text/css" media="print" />
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title id="pageTitle2" runat="server"></title>
+
+    <script language="javascript" type="text/javascript">
+        // Keep the popup in focus until it gets closed.
+        // This method works when the document loses focus.
+        // It does not work if a form field loses focus.
+        function restoreFocus() {
+            if (!document.hasFocus()) {
+                window.focus();
+            }
+        }
+        onblur = restoreFocus;
+    </script>
+
+</head>
+
+<script language="JavaScript" type="text/javascript" src="../javascripts/calendar.js"></script>
+
+<body>
+    <form id="form1" runat="server">
+    <ajax:ToolkitScriptManager runat="Server" ID="ScriptManager1" />
+    <!--   TOP NAV  -->
+    <div>
+        <%--<div id="mainnav-side">
+                <div id="welcome">
+                    <asp:Label ID="lblWElcome" runat="server" Text="Pending Tasks for:"></asp:Label>
+                    <asp:Label ID="lblUserName" runat="server" Text="Error Finding User Name" Font-Italic="False"
+                        ForeColor="#C00000" Font-Bold="False"></asp:Label>&nbsp;&nbsp;&nbsp;
+                </div>
+            </div>
+            <div class="clear">
+            </div>--%>
+        <%--<div id="header">
+            <asp:Label runat="server" ID="lblHeaderTitle" Text="UGN Database"></asp:Label>
+        </div>--%>
+    </div>
+    <!--  Header & Slogan  -->
+    <!--  Breadcrumb  -->
+    <div id="breadcrumb-container">
+        &nbsp;&nbsp;<asp:SiteMapPath ID="SiteMapPath1" ParentLevelsDisplayed="2" runat="server">
+        </asp:SiteMapPath>
+        <asp:Label ID="lblOtherSiteNode" runat="server" Visible="False"></asp:Label>
+    </div>
+    <!--  CONTENT  -->
+    <div>
+        <!--  MAIN COLUMN  -->
+        <div id="crView-content">
+            <div>
+                <asp:ContentPlaceHolder ID="maincontent" runat="server">
+                    <asp:Panel ID="Panel2" runat="server" Width="100%">
+                    </asp:Panel>
+                    <br />
+                </asp:ContentPlaceHolder>
+                <br />
+            </div>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<%--
+Default skin template. The following skins are provided as examples only.
+
+1. Named control skin. The SkinId should be uniquely defined because
+   duplicate SkinId's per control type are not allowed in the same theme.
+
+<asp:GridView runat="server" SkinId="gridviewSkin" BackColor="White" >
+   <AlternatingRowStyle BackColor="Blue" />
+</asp:GridView>
+
+2. Default skin. The SkinId is not defined. Only one default 
+   control skin per control type is allowed in the same theme.
+
+<asp:Image runat="server" ImageUrl="~/images/image1.jpg" />
+--%>
+
+<asp:LinkButton runat="server" skinid="LinkButtonSkin" Width="142px" Font-Bold="True" Font-Size="Medium" Font-Underline="True"></asp:LinkButton>
+
+<asp:Label runat="server" SkinID="MessageLabelSkin" Font-Bold="True" ForeColor="Red" font-size="Medium"/>
+
+<asp:Label runat="server" SkinID="StandardLabelSkin" ForeColor="Black"/>
+
+<asp:GridView SkinID="StandardGrid" runat="server" AutoGenerateColumns="False" ShowFooter="True" AllowPaging="True" >
+    <FooterStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="White" Wrap="False" />
+    <RowStyle BackColor="#F7F6F3" ForeColor="#333333" Wrap="False" />
+    <PagerStyle BackColor="#990000" ForeColor="White" HorizontalAlign="Center" Wrap="False" />
+    <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" Wrap="False" />
+    <HeaderStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
+    <EditRowStyle BackColor="#E2DED6" Wrap="False" />
+    <AlternatingRowStyle BackColor="White" ForeColor="#284775" Wrap="False" />
+    <EmptyDataRowStyle BackColor="White" Wrap="False" />
+    <EmptyDataTemplate>
+            No records found from the database.
+    </EmptyDataTemplate>
+</asp:GridView>
+
+<asp:GridView SkinID="StandardGridWOFooter" runat="server" AutoGenerateColumns="False" 
+    ShowFooter="false" 
+    AllowPaging="True"
+    CurrentPageIndex="1" 
+    PageSizeOptions="1,5,10,15,20,25" 
+    AllowSorting="True">
+    <FooterStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="White" Wrap="False" />
+    <RowStyle BackColor="#F7F6F3" ForeColor="#333333" Wrap="False" />
+    <PagerStyle BackColor="#990000" ForeColor="White" HorizontalAlign="Center" Wrap="False" />
+    <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" Wrap="False" />
+    <HeaderStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
+    <EditRowStyle BackColor="#E2DED6" Wrap="False" />
+    <AlternatingRowStyle BackColor="White" ForeColor="#284775" Wrap="False" />
+    <EmptyDataRowStyle BackColor="White" Wrap="False" />
+    <EmptyDataTemplate>
+            No records found from the database.
+    </EmptyDataTemplate>
+</asp:GridView>
+
+ <asp:GridView SkinID="CommBoardRSS" runat="server" AutoGenerateColumns="False" 
+    ShowFooter="false" 
+    AllowPaging="True"
+    CurrentPageIndex="1" 
+    PageSizeOptions="1,5,10,15,20,25" 
+    AllowSorting="True">
+    <FooterStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="White" Wrap="False" />
+    <RowStyle BackColor="#F7F6F3" ForeColor="#333333" Wrap="False" />
+    <PagerStyle BackColor="#990000" ForeColor="White" HorizontalAlign="Center" Wrap="False" />
+    <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" Wrap="False" />
+    <HeaderStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
+    <EditRowStyle BackColor="#E2DED6" Wrap="False" />
+    <AlternatingRowStyle BackColor="White" ForeColor="#284775" Wrap="False" />
+    <EmptyDataRowStyle BackColor="White" Wrap="False" />
+    <EmptyDataTemplate>
+             There are no entries available for response.
+    </EmptyDataTemplate>
+</asp:GridView>
+ 
+ <asp:GridView SkinID="CommBoardResponse" runat="server" AutoGenerateColumns="False" 
+    ShowFooter="false" 
+    AllowPaging="True"
+    CurrentPageIndex="1" 
+    PageSizeOptions="1,5,10,15,20,25" 
+    AllowSorting="True">
+    <FooterStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="White" Wrap="False" />
+    <RowStyle BackColor="#F7F6F3" ForeColor="#333333" Wrap="False" />
+    <PagerStyle BackColor="#990000" ForeColor="White" HorizontalAlign="Center" Wrap="False" />
+    <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" Wrap="False" />
+    <HeaderStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
+    <EditRowStyle BackColor="#E2DED6" Wrap="False" />
+    <AlternatingRowStyle BackColor="White" ForeColor="#284775" Wrap="False" />
+    <EmptyDataRowStyle BackColor="White" Wrap="False" />
+    <EmptyDataTemplate>
+             There is no response available for this thread.
+    </EmptyDataTemplate>
+</asp:GridView>
+
+ <asp:Calendar SkinID="StandardCalendar" runat="server" BackColor="White"
+              BorderColor="#646464" BorderWidth="1px" CellPadding="1" 
+              DayNameFormat="Short" Font-Names="Arial, Verdana, Helvetica, sans-serif" Font-Size="10pt" 
+              ForeColor="#000000" Height="200px" Width="220px">
+              <WeekendDayStyle BackColor="#F7F6F3" />
+              <SelectedDayStyle BackColor="#E0E0E0" Font-Bold="True" ForeColor="#00000" />
+              <SelectorStyle BackColor="#99CCCC" ForeColor="#336666" />
+              <TitleStyle BackColor="#CCCCCC" BorderColor="#CCCCCC" BorderWidth="1px" 
+                Font-Bold="True" Font-Size="10pt" ForeColor="#000000" Height="25px" />
+              
+
+              
+</asp:Calendar>
+
+

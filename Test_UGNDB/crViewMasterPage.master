@@ -1,0 +1,84 @@
+<%@ Master Language="VB" CodeFile="crViewMasterPage.master.vb" Inherits="crViewMasterPage"
+    EnableTheming="true" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<link rel="stylesheet" href="msvs_template_simple_divs.css" type="text/css" media="print" />
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title id="pageTitle2" runat="server"></title>
+</head>
+
+<script language="JavaScript" type="text/javascript" src="../javascripts/calendar.js"></script>
+
+<script language="javascript" type="text/javascript">
+    document.onmousedown=disableclick
+    status="Right Click Disabled"
+    function disableclick(e) 
+    {
+    	if( event.button==2 )
+    		alert("Sorry Right Click has been disabled!");
+    		return false;
+    }
+    function disable_back_btn()
+    {
+        history.go(1);
+    }
+     disable_back_btn();
+     
+   
+    //counter below used for limit users to enter a set number of characters in textboxes.
+    function tbLimit() 
+    {
+        var tbObj=event.srcElement; 
+        if (tbObj.value.length==tbObj.maxLength*1) return false;
+    }
+    function tbCount(visCnt) 
+    { 
+        var tbObj=event.srcElement;
+        if (tbObj.value.length>tbObj.maxLength*1) tbObj.value=tbObj.value.substring(0,tbObj.maxLength*1) ; 
+        if (visCnt) visCnt.innerText=tbObj.maxLength-tbObj.value.length + " char(s) remaining.";
+    }
+
+</script>
+
+<body>
+    <form id="form1" runat="server">
+    <ajax:ToolkitScriptManager runat="Server" ID="ScriptManager1" />
+    <!--   TOP NAV  -->
+    <div id="mainnav-container">
+        <div id="mainnav-side">
+            <div id="welcome">
+                <asp:Label ID="lblWElcome" runat="server" Text="Your are Logged in as:"></asp:Label>
+                <asp:Label ID="lblUserName" runat="server" Text="Error Finding User Name" Font-Italic="False"
+                    ForeColor="#C00000" Font-Bold="False"></asp:Label>&nbsp;&nbsp;&nbsp;<asp:Label ID="lblUserFacility"
+                        runat="server" Text="Error Finding User Name" Font-Italic="False" ForeColor="#C00000"
+                        Font-Bold="False" />&nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    <!--  Header & Slogan  -->
+    <div id="header">
+        <asp:Label runat="server" ID="lblHeaderTitle" Text="UGN Database"></asp:Label>
+        <div id="slogan">
+            Copyright &copy; 2009 UGN, Inc.<br />
+            All rights reserved.</div>
+    </div>
+    <!--  Breadcrumb  -->
+    <div id="breadcrumb-container">
+        &nbsp;&nbsp;<asp:SiteMapPath ID="SiteMapPath1" ParentLevelsDisplayed="2" runat="server">
+        </asp:SiteMapPath>
+        <asp:Label ID="lblOtherSiteNode" runat="server" Visible="False"></asp:Label>
+    </div>
+    <!--  CONTENT  -->
+    <div>
+        <!--  MAIN COLUMN  -->
+        <asp:ContentPlaceHolder ID="maincontent" runat="server">
+            <br />
+        </asp:ContentPlaceHolder>
+        <br />
+    </div>
+    </form>
+</body>
+</html>

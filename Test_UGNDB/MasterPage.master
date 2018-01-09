@@ -1,0 +1,565 @@
+<%@ Master Language="VB" CodeFile="MasterPage.master.vb" Inherits="MasterPage" EnableTheming="true" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title id="pageTitle2" runat="server"></title>
+</head>
+<link href="App_Themes/brick_gray/msvs_template_simple_divs.css" rel="stylesheet"
+    type="text/css" />
+
+<script language="JavaScript" type="text/javascript" src="../javascripts/calendar.js"></script>
+
+<script language="javascript" type="text/javascript">
+    document.onmousedown = disableclick
+    status = "Right Click Disabled"
+    function disableclick(e) {
+        if (event.button == 2)
+            alert("Sorry Right Click has been disabled!");
+        return false;
+    }
+    function disable_back_btn() {
+        history.go(1);
+    }
+    disable_back_btn();
+
+
+    function HandleOnClose(evt) {
+
+        //alert("x: " + window.event.clientX + "     y: " + window.event.clientY);
+
+        //if (window.event.clientX < 0 && window.event.clientY < -80) { 
+        if (window.event.clientY < 0 && (window.event.clientX > (document.documentElement.clientWidth - 5) || window.event.clientX < 15)) {
+
+            var btn = eval(document.getElementById("<%=btnClosingWork.ClientID %>"));
+
+            if (btn != null) {
+                btn.click();
+            }
+            //return "Did you save your work?"         
+        }
+    }
+
+    //    function checkTextAreaMaxLength(textBox,e, length)
+    //    {
+    //        
+    //            var mLen = textBox["MaxLength"];
+    //            if(null==mLen)
+    //                mLen=length;
+    //            
+    //            var maxLength = parseInt(mLen);
+    //            if(!checkSpecialKeys(e))
+    //            {
+    //             if(textBox.value.length > maxLength-1)
+    //             {
+    //                if(window.event)//IE
+    //                  e.returnValue = false;
+    //                else//Firefox
+    //                    e.preventDefault();
+    //             }
+    //        }   
+    //    }
+    //    function checkSpecialKeys(e)
+    //    {
+    //        if(e.keyCode !=8 && e.keyCode!=46 && e.keyCode!=37 && e.keyCode!=38 && e.keyCode!=39 && e.keyCode!=40)
+    //            return false;
+    //        else
+    //            return true;
+    //    }        
+    //    
+    //counter below used for limit users to enter a set number of characters in textboxes.
+    function tbLimit() {
+        var tbObj = event.srcElement;
+        if (tbObj.value.length == tbObj.maxLength * 1) return false;
+    }
+    function tbCount(visCnt) {
+        var tbObj = event.srcElement;
+        if (tbObj.value.length > tbObj.maxLength * 1) tbObj.value = tbObj.value.substring(0, tbObj.maxLength * 1);
+        if (visCnt) visCnt.innerText = tbObj.maxLength - tbObj.value.length + " char(s) remaining.";
+    }
+
+</script>
+
+<body onbeforeunload="return HandleOnClose(event);">
+    <form id="form1" runat="server">
+    <ajax:ToolkitScriptManager runat="Server" ID="ScriptManager1" />
+    <!--   TOP NAV  -->
+    <div id="mainnav-container">
+        <div id="mainnav-side">
+            <div id="welcome">
+                <asp:Label ID="lblWElcome" runat="server" Text="Your are Logged in as:"></asp:Label>
+                <asp:Label ID="lblUserName" runat="server" Text="Error Finding User Name" Font-Italic="False"
+                    ForeColor="#C00000" Font-Bold="False"></asp:Label>&nbsp;&nbsp;&nbsp;<asp:Label ID="lblUserFacility"
+                        runat="server" Text="Error Finding User Name" Font-Italic="False" ForeColor="#C00000"
+                        Font-Bold="False" />&nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    <!--  Header & Slogan  -->
+    <div id="header">
+        <asp:Label runat="server" ID="lblHeaderTitle" Text="Test: UGN Database"></asp:Label>
+        <div id="slogan">
+            Copyright &copy; 2012 UGN, Inc.<br />
+            All rights reserved.</div>
+    </div>
+    <!--  Breadcrumb  -->
+    <div id="breadcrumb-container">
+        &nbsp;&nbsp;<asp:SiteMapPath ID="SiteMapPath1" ParentLevelsDisplayed="2" runat="server">
+        </asp:SiteMapPath>
+        <table align="right" border="2">
+            <tr>
+                <td>
+                    <b><a runat="server" id="hlnkSupportDetail" style="font-size: small; color: Red;
+                        cursor: hand" href="~/Workflow/Support_Detail.aspx" target="_blank">
+                        <asp:Image ID="imgHelp" runat="server" AlternateText="help" ImageUrl="~/images/help.jpg"
+                            Height="12px" />
+                        Support Request</a></b>
+                </td>
+            </tr>
+        </table>
+        <asp:Label ID="lblOtherSiteNode" runat="server" Visible="False"></asp:Label>
+    </div>
+    <!--  CONTENT  -->
+    <div id="content-container">
+        <!--   SIDE COLUMN  -->
+        <div id="content-side">
+            <asp:Button Visible="true" runat="server" ID="btnClosingWork" Text="clear" Height="1px"
+                CausesValidation="false" Width="1px" />
+            <!--Site-Navigation-->
+            <b>
+                <asp:HyperLink runat="server" ID="hlnkHome" Text="Home" Value="Home" NavigateUrl="~/Home.aspx" /></b><br />
+            <br />
+            <%-- Accounts Receivable Panel--%>
+            <asp:Panel ID="ARPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgAR" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblAccountsReceivable" runat="server" Text="Label">Accounts Receivable:</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="ARContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blAR" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="ARExtender" runat="server" TargetControlID="ARContentPanel"
+                ExpandControlID="ARPanel" CollapseControlID="ARPanel" Collapsed="true" TextLabelID="lblAccountsReceivable"
+                ExpandedText="Accounts Receivable:" CollapsedText="Accounts Receivable:" ImageControlID="imgAR"
+                CollapsedImage="images/expand_blue.jpg" ExpandedImage="images/collapse_blue.jpg"
+                SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>
+            <%-- Acoustic Panel--%>
+            <%-- <asp:Panel ID="AcousticPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgAcoustic" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblAcoustic" runat="server" Text="Label">Acoustic:</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="AcousticContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blAcoustic" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="ACExtender" runat="server" TargetControlID="AcousticContentPanel"
+                ExpandControlID="AcousticPanel" CollapseControlID="AcousticPanel" Collapsed="true"
+                TextLabelID="lblAcoustic" ExpandedText="Acoustic:" CollapsedText="Acoustic:"
+                ImageControlID="imgAcoustic" CollapsedImage="images/expand_blue.jpg" ExpandedImage="images/collapse_blue.jpg"
+                SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>--%>
+            <br />
+            <%-- Calendars Panel--%>
+            <%-- <asp:Panel ID="CalendarsPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgCalendars" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblCalendars" runat="server" Text="Label">Calendars:</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="CalendarsContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blCalendars" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="CALExtender" runat="server" TargetControlID="CalendarsContentPanel"
+                ExpandControlID="CalendarsPanel" CollapseControlID="CalendarsPanel" Collapsed="true"
+                TextLabelID="lblCalendars" ExpandedText="Calendars:" CollapsedText="Calendars:"
+                ImageControlID="imgCalendars" CollapsedImage="images/expand_blue.jpg" ExpandedImage="images/collapse_blue.jpg"
+                SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>--%>
+            <%-- Capital Projects Panel--%>
+            <%-- <asp:Panel ID="EXPPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgEXP" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblEXP" runat="server" Text="Label">Capital Projects:</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="EXPContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blEXP" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="EXPExtender" runat="server" TargetControlID="EXPContentPanel"
+                ExpandControlID="EXPPanel" CollapseControlID="EXPPanel" Collapsed="true" TextLabelID="lblEXP"
+                ExpandedText="Capital Projects:" CollapsedText="Capital Projects:" ImageControlID="imgEXP"
+                CollapsedImage="images/expand_blue.jpg" ExpandedImage="images/collapse_blue.jpg"
+                SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>--%>
+            <%-- Costing Panel--%>
+            <asp:Panel ID="CostingPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgCosting" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblCosting" runat="server" Text="Label">Costing:</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="CostingContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blCosting" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="COExtender" runat="server" TargetControlID="CostingContentPanel"
+                ExpandControlID="CostingPanel" CollapseControlID="CostingPanel" Collapsed="true"
+                TextLabelID="lblCosting" ExpandedText="Costing:" CollapsedText="Costing:" ImageControlID="imgCosting"
+                CollapsedImage="images/expand_blue.jpg" ExpandedImage="images/collapse_blue.jpg"
+                SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>
+            <%-- Cost Reduction--%>
+            <asp:Panel ID="CRPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgCR" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblCR" runat="server" Text="Label">Cost Reduction:</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="CRContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blCR" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="CRExtender" runat="server" TargetControlID="CRContentPanel"
+                ExpandControlID="CRPanel" CollapseControlID="CRPanel" Collapsed="true" TextLabelID="lblCR"
+                ExpandedText="Cost Reduction:" CollapsedText="Cost Reduction:" ImageControlID="imgCR"
+                CollapsedImage="images/expand_blue.jpg" ExpandedImage="images/collapse_blue.jpg"
+                SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>
+            <%-- DBA Workspace --%>
+            <%-- <asp:Panel ID="DBAPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgDBA" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblDBA" runat="server" Text="Label">DBA Workspace (Admin):</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="DBAContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blDBA" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="DBAExtender" runat="server" TargetControlID="DBAContentPanel"
+                ExpandControlID="DBAPanel" CollapseControlID="DBAPanel" Collapsed="true" TextLabelID="lblDBA"
+                ExpandedText="DBA Workspace (Admin):" CollapsedText="DBA Workspace (Admin):"
+                ImageControlID="imgDBA" CollapsedImage="images/expand_blue.jpg" ExpandedImage="images/collapse_blue.jpg"
+                SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>--%>
+            <%-- Data Maintenance Panel--%>
+            <asp:Panel ID="DataMaintPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgDataMaint" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblDataMaintenance" runat="server" Text="Label">Data Maintenance:</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="DataMaintContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blDM" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="DMExtender" runat="server" TargetControlID="DataMaintContentPanel"
+                ExpandControlID="DataMaintPanel" CollapseControlID="DataMaintPanel" Collapsed="true"
+                TextLabelID="lblDataMaintenance" ExpandedText="Data Maintenance:" CollapsedText="Data Maintenance:"
+                ImageControlID="imgDataMaint" CollapsedImage="images/expand_blue.jpg" ExpandedImage="images/collapse_blue.jpg"
+                SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>
+            <%-- Drawing Management Panel--%>
+            <asp:Panel ID="DrawMgmtPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgDrawMgmt" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblDrawingManagement" runat="server" Text="Label">Drawing Management:</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="DrawMgmtContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blDMS" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="DMGExtender" runat="server" TargetControlID="DrawMgmtContentPanel"
+                ExpandControlID="DrawMgmtPanel" CollapseControlID="DrawMgmtPanel" Collapsed="true"
+                TextLabelID="lblDrawingManagement" ExpandedText="Drawing Management:" CollapsedText="Drawing Management:"
+                ImageControlID="imgDrawMgmt" CollapsedImage="images/expand_blue.jpg" ExpandedImage="images/collapse_blue.jpg"
+                SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>
+            <%-- MANUFACTURING --%>
+            <asp:Panel ID="MPRPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgMPR" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblMPR" runat="server">Manufacturing:</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="MPRContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blMPR" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="MPRExtender" runat="server" TargetControlID="MPRContentPanel"
+                ExpandControlID="MPRPanel" CollapseControlID="MPRPanel" Collapsed="true" TextLabelID="lblMPR"
+                ExpandedText="Manufacturing:" CollapsedText="Manufacturing:" ImageControlID="imgMPR"
+                CollapsedImage="images/expand_blue.jpg" ExpandedImage="images/collapse_blue.jpg"
+                SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>
+            <%-- Packaging Panel--%>
+            <asp:Panel ID="PKGPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgPKG" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblPKG" runat="server" Text="Label">Packaging:</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="PKGContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blPKG" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="PKGExtender" runat="server" TargetControlID="PKGContentPanel"
+                ExpandControlID="PKGPanel" CollapseControlID="PKGPanel" Collapsed="true" TextLabelID="lblPKG"
+                ExpandedText="Packaging:" CollapsedText="Packaging:" ImageControlID="imgPKG"
+                CollapsedImage="images/expand_blue.jpg" ExpandedImage="images/collapse_blue.jpg"
+                SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender> 
+            <%-- Planning and Forecasting Panel --%>
+            <asp:Panel ID="PFPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgPF" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblPlanningForecasting" runat="server" Text="Label">Planning and Forecasting:</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="PFContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blPF" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="PFExtender" runat="server" TargetControlID="PFContentPanel"
+                ExpandControlID="PFPanel" CollapseControlID="PFPanel" Collapsed="true" TextLabelID="lblPlanningForecasting"
+                ExpandedText="Planning and Forecasting:" CollapsedText="Planning and Forecasting:"
+                ImageControlID="imgPF" CollapsedImage="images/expand_blue.jpg" ExpandedImage="images/collapse_blue.jpg"
+                SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>
+            
+            <%-- Plant Specific Reports Panel --%>
+            <%-- <asp:Panel ID="PSRPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgPSR" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblPlantSpecificReports" runat="server">Plant Specific Reports:</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="PSRContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blPSR" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="PSRExtender" runat="server" TargetControlID="PSRContentPanel"
+                ExpandControlID="PSRPanel" CollapseControlID="PSRPanel" Collapsed="true" TextLabelID="lblPlantSpecificReports"
+                ExpandedText="Plant Specific Reports:" CollapsedText="Plant Specific Reports:"
+                ImageControlID="imgPSR" CollapsedImage="images/expand_blue.jpg" ExpandedImage="images/collapse_blue.jpg"
+                SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>--%>
+            <%-- PURCHASING --%>
+            <asp:Panel ID="PURPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgPUR" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblPUR" runat="server">Purchasing:</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="PURContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blPUR" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="PURExtender" runat="server" TargetControlID="PURContentPanel"
+                ExpandControlID="PURPanel" CollapseControlID="PURPanel" Collapsed="true" TextLabelID="lblPUR"
+                ExpandedText="Purchasing:" CollapsedText="Purchasing:" ImageControlID="imgPUR"
+                CollapsedImage="images/expand_blue.jpg" ExpandedImage="images/collapse_blue.jpg"
+                SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>
+            <%-- QUALITY Panel--%>
+            <asp:Panel ID="ECIPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgECI" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblECI" runat="server" Text="Label">Quality:</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="ECIContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blECI" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="ECIExtender" runat="server" TargetControlID="ECIContentPanel"
+                ExpandControlID="ECIPanel" CollapseControlID="ECIPanel" Collapsed="true" TextLabelID="lblECI"
+                ExpandedText="Quality:" CollapsedText="Quality:" ImageControlID="imgECI" CollapsedImage="images/expand_blue.jpg"
+                ExpandedImage="images/collapse_blue.jpg" SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>
+            <%-- Request For Development Panel --%>
+            <asp:Panel ID="RFDPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgRFD" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblRequestForDevelopment" runat="server" Text="Label">Request For Development:</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="RFDContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blRFD" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="RFDExtender" runat="server" TargetControlID="RFDContentPanel"
+                ExpandControlID="RFDPanel" CollapseControlID="RFDPanel" Collapsed="true" TextLabelID="lblRequestForDevelopment"
+                ExpandedText="Request For Development:" CollapsedText="Request For Development:"
+                ImageControlID="imgRFD" CollapsedImage="images/expand_blue.jpg" ExpandedImage="images/collapse_blue.jpg"
+                SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>
+            <%-- R&D Lab Panel --%>
+            <asp:Panel ID="RnDPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgRnD" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblRnD" runat="server" Text="R&D Lab" />
+            </asp:Panel>
+            <asp:Panel ID="RnDContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blRnD" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="RnDExtender" runat="server" TargetControlID="RnDContentPanel"
+                ExpandControlID="RnDPanel" CollapseControlID="RnDPanel" Collapsed="true" TextLabelID="lblRnD"
+                ExpandedText="R&D Lab:" CollapsedText="R&D Lab:" ImageControlID="imgRnD" CollapsedImage="images/expand_blue.jpg"
+                ExpandedImage="images/collapse_blue.jpg" SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>
+            <%-- Safety Management Panel--%>
+            <%--<asp:Panel ID="SAFPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgSAF" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblSafety" runat="server" Text="Label">Safety:</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="SAFContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blSAF" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="SAFExtender" runat="server" TargetControlID="SAFContentPanel"
+                ExpandControlID="SAFPanel" CollapseControlID="SAFPanel" Collapsed="true" TextLabelID="lblSafety"
+                ExpandedText="Safety:" CollapsedText="Safety:" ImageControlID="imgSAF" CollapsedImage="images/expand_blue.jpg"
+                ExpandedImage="images/collapse_blue.jpg" SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>--%>
+            <%-- Security Panel --%>
+            <asp:Panel ID="SecurityPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgSec" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblSecurity" runat="server" Text="Label">Security:</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="SecurityContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blSecurity" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="SECExtender" runat="server" TargetControlID="SecurityContentPanel"
+                ExpandControlID="SecurityPanel" CollapseControlID="SecurityPanel" Collapsed="true"
+                TextLabelID="lblSecurity" ExpandedText="Security:" CollapsedText="Security:"
+                ImageControlID="imgSec" CollapsedImage="images/expand_blue.jpg" ExpandedImage="images/collapse_blue.jpg"
+                SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>
+            <%--  SPENDING REQUESTS --%>
+            <asp:Panel ID="SPRPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgSPR" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblSPR" runat="server">Spending Requests:</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="SPRContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blSPR" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="SPRExtender" runat="server" TargetControlID="SPRContentPanel"
+                ExpandControlID="SPRPanel" CollapseControlID="SPRPanel" Collapsed="true" TextLabelID="lblSPR"
+                ExpandedText="Spending Requests:" CollapsedText="Spending Requests:" ImageControlID="imgSPR"
+                CollapsedImage="images/expand_blue.jpg" ExpandedImage="images/collapse_blue.jpg"
+                SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>
+            <%-- SUPPLIER
+                <asp:Panel ID="SUPPanel" runat="server" CssClass="collapsePanelHeader">
+                    <asp:Image ID="imgSUP" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                        Height="12px" />&nbsp;
+                    <asp:Label ID="lblSUP" runat="server">Supplier:</asp:Label>
+                </asp:Panel>
+                <asp:Panel ID="SUPContentPanel" runat="server" CssClass="collapsePanel">
+                    <asp:BulletedList ID="blSUP" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                        BulletStyle="CustomImage">
+                    </asp:BulletedList>
+                </asp:Panel>
+                <ajax:CollapsiblePanelExtender ID="SUPExtender" runat="server" TargetControlID="SUPContentPanel"
+                    ExpandControlID="SUPPanel" CollapseControlID="SUPPanel" Collapsed="true" TextLabelID="lblSUP"
+                    ExpandedText="Supplier:" CollapsedText="Supplier:" ImageControlID="imgSUP" CollapsedImage="images/expand_blue.jpg"
+                    ExpandedImage="images/collapse_blue.jpg" SuppressPostBack="true">
+                </ajax:CollapsiblePanelExtender> --%>
+            <%-- Work Flow Panel --%>
+            <asp:Panel ID="WorkFlowPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgWF" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblWorkFlow" runat="server" Text="Label">Work Flow:</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="WorkFlowContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blWorkFlow" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="WFExtender" runat="server" TargetControlID="WorkFlowContentPanel"
+                ExpandControlID="WorkFlowPanel" CollapseControlID="WorkFlowPanel" Collapsed="true"
+                TextLabelID="lblWorkFlow" ExpandedText="Work Flow:" CollapsedText="Work Flow:"
+                ImageControlID="imgWF" CollapsedImage="images/expand_blue.jpg" ExpandedImage="images/collapse_blue.jpg"
+                SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>
+            <hr />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><asp:HyperLink runat="server" ID="hlnkMicrostrategyBI"
+                Text="MicroStrategy BI" NavigateUrl="http://tapsr.ugnnet.com/MicroStrategy/asp/"
+                Target="_blank" Visible="false" /></b><br />
+            <br />
+            <%-- User Guides --%>
+            <asp:Panel ID="UserGuidesPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgUG" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblUserGuides" runat="server" Text="Label">User Guides:</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="UserGuidesContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blUserGuides" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage" Target="_blank">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="UGExtender" runat="server" TargetControlID="UserGuidesContentPanel"
+                ExpandControlID="UserGuidesPanel" CollapseControlID="UserGuidesPanel" Collapsed="true"
+                TextLabelID="lblUserGuides" ExpandedText="User Guides:" CollapsedText="User Guides:"
+                ImageControlID="imgUG" CollapsedImage="images/expand_blue.jpg" ExpandedImage="images/collapse_blue.jpg"
+                SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>
+             <%-- Downloads --%>
+            <asp:Panel ID="DLPanel" runat="server" CssClass="collapsePanelHeader">
+                <asp:Image ID="imgDL" runat="server" AlternateText="expand" ImageUrl="~/images/expand_blue.jpg"
+                    Height="12px" />&nbsp;
+                <asp:Label ID="lblDownloads" runat="server" Text="Label">Downloads:</asp:Label>
+            </asp:Panel>
+            <asp:Panel ID="DLContentPanel" runat="server" CssClass="collapsePanel">
+                <asp:BulletedList ID="blDL" runat="server" DisplayMode="HyperLink" BulletImageUrl="~/images/bullet_square_grey_small.png"
+                    BulletStyle="CustomImage" Target="_blank">
+                </asp:BulletedList>
+            </asp:Panel>
+            <ajax:CollapsiblePanelExtender ID="DLExtender" runat="server" TargetControlID="DLContentPanel"
+                ExpandControlID="DLPanel" CollapseControlID="DLPanel" Collapsed="true"
+                TextLabelID="lblDownloads" ExpandedText="Downloads:" CollapsedText="Downloads:"
+                ImageControlID="imgDL" CollapsedImage="images/expand_blue.jpg" ExpandedImage="images/collapse_blue.jpg"
+                SuppressPostBack="true">
+            </ajax:CollapsiblePanelExtender>
+        </div>
+        <!--  MAIN COLUMN  -->
+        <div id="content">
+            <h1>
+                <div id="pagetitle">
+                    <asp:Label ID="lblContent" runat="server" Text="Page title"></asp:Label>&nbsp;
+                </div>
+            </h1>
+            <div>
+                <asp:ContentPlaceHolder ID="maincontent" runat="server">
+                    <asp:Panel ID="Panel2" runat="server" Width="100%">
+                    </asp:Panel>
+                    <br />
+                </asp:ContentPlaceHolder>
+                <br />
+            </div>
+        </div>
+    </div>
+    </form>
+</body>
+</html>
